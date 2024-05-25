@@ -105,11 +105,10 @@ ImagePublisher::ImagePublisher(
         }
       }
       // reconfigureCallback() is called within onInit() so there is no need to call it twice
-      if (call_reconfigure && !call_init)
-      {
-          ImagePublisher::reconfigureCallback();
+      if (call_reconfigure && !call_init) {
+        ImagePublisher::reconfigureCallback();
       } else if (call_init) {
-          ImagePublisher::onInit();
+        ImagePublisher::onInit();
       }
 
       return result;
