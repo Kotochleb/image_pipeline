@@ -108,8 +108,7 @@ ImagePublisher::ImagePublisher(
       if (call_reconfigure && !call_init)
       {
           ImagePublisher::reconfigureCallback();
-      } else if (call_init)
-      {
+      } else if (call_init) {
           ImagePublisher::onInit();
       }
 
