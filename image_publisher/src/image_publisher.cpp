@@ -143,8 +143,8 @@ void ImagePublisher::doWork()
     if (cap_.isOpened()) {
       if (!cap_.read(image_)) {
         cap_.set(cv::CAP_PROP_POS_FRAMES, 0);
-        image_flipped_ = false;
       }
+      image_flipped_ = false;
     }
     if (flip_image_ && !image_flipped_) {
       cv::flip(image_, image_, flip_value_);
