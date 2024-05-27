@@ -71,8 +71,6 @@ ImagePublisher::ImagePublisher(
   auto param_change_callback =
     [this](std::vector<rclcpp::Parameter> parameters) -> rcl_interfaces::msg::SetParametersResult
     {
-      RCLCPP_INFO(get_logger(), "param_change_callback");
-
       bool call_init = false;
       bool call_reconfigure = false;
 
