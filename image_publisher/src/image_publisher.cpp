@@ -227,7 +227,7 @@ void ImagePublisher::onInit()
   camera_info_.d = {0, 0, 0, 0, 0};
 
   // Based on https://learnopencv.com/approximate-focal-length-for-webcams-and-cell-phone-cameras/
-  double f_approx = (camera_info_.width / 2) / tan((field_of_view_ * M_PI / 180) / 2);
+  double f_approx = (camera_info_.width / 2) / std::tan((field_of_view_ * M_PI / 180) / 2);
   camera_info_.k = {f_approx, 0, static_cast<float>(camera_info_.width / 2), 0, f_approx,
     static_cast<float>(camera_info_.height / 2), 0, 0, 1};
   camera_info_.r = {1, 0, 0, 0, 1, 0, 0, 0, 1};
