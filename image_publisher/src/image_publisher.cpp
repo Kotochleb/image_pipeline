@@ -33,6 +33,7 @@
 
 #include <cmath>
 #include <chrono>
+#include <limits>
 #include <string>
 #include <thread>
 #include <vector>
@@ -61,7 +62,7 @@ ImagePublisher::ImagePublisher(
   std::string topic_name = node_base->resolve_topic_or_service_name("image_raw", false);
   pub_ = image_transport::create_camera_publisher(this, topic_name);
 
-  field_of_view_ = this->declare_parameter("field_of_view", static_cast<double>(50));
+  field_of_view_ = this->declare_parameter("field_of_view", static_cast<double>(0));
   flip_horizontal_ = this->declare_parameter("flip_horizontal", false);
   flip_vertical_ = this->declare_parameter("flip_vertical", false);
   frame_id_ = this->declare_parameter("frame_id", std::string("camera"));
@@ -226,8 +227,12 @@ void ImagePublisher::onInit()
   camera_info_.distortion_model = "plumb_bob";
   camera_info_.d = {0, 0, 0, 0, 0};
 
-  // Based on https://learnopencv.com/approximate-focal-length-for-webcams-and-cell-phone-cameras/
-  double f_approx = (camera_info_.width / 2) / std::tan((field_of_view_ * M_PI / 180) / 2);
+  double f_approx = 1.0; // FOV equal to 0 disables the approximation
+  if (std::abs(field_of_view_) > std::numeric_limits<double>::epsilon())
+  {
+    // Based on https://learnopencv.com/approximate-focal-length-for-webcams-and-cell-phone-cameras/
+    f_approx = (camera_info_.width / 2) / std::tan((field_of_view_ * M_PI / 180) / 2);
+  }
   camera_info_.k = {f_approx, 0, static_cast<float>(camera_info_.width / 2), 0, f_approx,
     static_cast<float>(camera_info_.height / 2), 0, 0, 1};
   camera_info_.r = {1, 0, 0, 0, 1, 0, 0, 0, 1};
