@@ -228,8 +228,7 @@ void ImagePublisher::onInit()
   camera_info_.d = {0, 0, 0, 0, 0};
 
   double f_approx = 1.0; // FOV equal to 0 disables the approximation
-  if (std::abs(field_of_view_) > std::numeric_limits<double>::epsilon())
-  {
+  if (std::abs(field_of_view_) > std::numeric_limits<double>::epsilon()) {
     // Based on https://learnopencv.com/approximate-focal-length-for-webcams-and-cell-phone-cameras/
     f_approx = (camera_info_.width / 2) / std::tan((field_of_view_ * M_PI / 180) / 2);
   }
